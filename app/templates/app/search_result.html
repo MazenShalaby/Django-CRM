@@ -1,0 +1,137 @@
+{% extends 'base.html' %} {% block title %}Search Results{% endblock title %} {% block
+content %}
+
+<div class="container mt-5">
+    <!-- Page Header -->
+    <div class="text-center mb-4">
+        <h4 class="fw-bold mb-1">Search Results</h4>
+
+        {% if query %}
+        <small class="text-muted">
+            Showing results for
+            <span class="fw-semibold text-dark">"{{ query }}"</span>
+            {% if results %} · {{ results|length }} result{{ results|length|pluralize }}
+            {% endif %}
+        </small>
+        {% endif %}
+    </div>
+
+    <!-- Search Again -->
+    <form
+        method="GET"
+        action="{% url 'search' %}"
+        class="card border-0 shadow-sm rounded-4 mb-4"
+    >
+        <div class="card-body">
+            <div class="row g-2 justify-content-center align-items-center">
+                <div class="col-md-4">
+                    <input
+                        type="text"
+                        name="query"
+                        class="form-control form-control-lg"
+                        placeholder="Search by name or phone..."
+                        value="{{ query }}"
+                    />
+                </div>
+
+                <div class="col-auto">
+                    <button class="btn btn-primary btn-lg rounded-pill px-4">
+                        Search
+                    </button>
+                </div>
+
+                <div class="col-auto">
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="btn btn-outline-secondary btn-lg rounded-pill px-4"
+                    >
+                        Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Results -->
+    {% if results %}
+    <div class="row g-4">
+        {% for record in results %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <!-- Card Header -->
+                <div
+                    class="card-header bg-primary text-white text-center rounded-top-4 py-3"
+                >
+                    <h6 class="mb-0 fw-semibold">
+                        {{ record.first_name }} {{ record.last_name }}
+                    </h6>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body small">
+                    <div class="mb-2">
+                        <span class="text-muted">ID</span>
+                        <div class="fw-semibold">{{ record.id }}</div>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="text-muted">Age</span>
+                        <div class="fw-semibold">{{ record.age }} years</div>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="text-muted">Phone</span>
+                        <div class="fw-semibold">
+                            <a
+                                href="tel:{{ record.phone }}"
+                                class="text-decoration-none text-dark"
+                            >
+                                {{ record.phone }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="text-muted">Height / Weight</span>
+                        <div class="fw-semibold">
+                            {{ record.tall }} cm · {{ record.weight }} kg
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-muted">Address</span>
+                        <div
+                            class="fw-semibold text-secondary text-truncate"
+                            title="{{ record.address }}"
+                        >
+                            {{ record.address }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-light text-center rounded-bottom-4">
+                    <a
+                        href="{% url 'record-detail' record.id %}"
+                        class="btn btn-outline-primary btn-sm rounded-pill px-4"
+                    >
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center mt-5">
+        <div class="alert alert-warning rounded-4 shadow-sm d-inline-block px-4">
+            <h6 class="fw-semibold mb-1">No results found</h6>
+            <p class="mb-0 text-muted">Try searching with a different name or phone.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock content %}

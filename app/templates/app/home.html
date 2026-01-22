@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home | Django CRM
+{% endblock title %}
+
+{% block content %}
+<div class="container text-center mt-5">
+
+    <!-- Hero Section -->
+    <h1 class="fw-bold">
+        Django CRM
+    </h1>
+
+    <p class="lead mt-3">
+        A simple and powerful Customer Relationship Management system
+        built to help you organize, track, and manage your business data efficiently.
+    </p>
+
+    <hr class="my-4" style="width: 60%; margin: auto;">
+
+    <!-- Features -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <h5 class="fw-bold">📊 Centralized Dashboard</h5>
+            <p>
+                View all your records, clients, and activity in one place with
+                an easy-to-use dashboard.
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <h5 class="fw-bold">⚡ Fast & Efficient</h5>
+            <p>
+                Manage records quickly with clean workflows designed
+                for speed and productivity.
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <h5 class="fw-bold">🔐 Secure Access</h5>
+            <p>
+                Authentication-based access ensures that your data
+                stays private and protected.
+            </p>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="mt-5">
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-warning btn-lg">
+                Go to Dashboard
+            </a>
+        {% else %}
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg me-2">
+                Get Started
+            </a>
+            <a href="{% url 'signin' %}" class="btn btn-outline-success btn-lg">
+                Login
+            </a>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

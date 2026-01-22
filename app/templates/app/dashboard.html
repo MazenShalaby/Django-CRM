@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard | Django CRM
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Dashboard Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">Dashboard</h2>
+            <small class="text-muted">Overview of your CRM system</small>
+        </div>
+        <span class="badge bg-light text-dark px-3 py-2">
+            Welcome, {{ user.username }}
+        </span>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4 g-3">
+        <div class="col-md-3">
+            <div class="card shadow-sm rounded-4 text-center p-3 h-100">
+                <small class="text-muted">Total Members</small>
+                <p class="display-6 fw-bold mb-0">{{ records.count }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm rounded-4 text-center p-3 h-100">
+                <small class="text-muted">New This Month</small>
+                <p class="display-6 fw-bold mb-0">{{ new_members }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm rounded-4 text-center p-3 h-100">
+                <small class="text-muted">Active Records</small>
+                <p class="display-6 fw-bold mb-0">{{ active_records }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm rounded-4 text-center p-3 h-100">
+                <small class="text-muted">Pending Actions</small>
+                <p class="display-6 fw-bold mb-0">{{ pending_actions }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Records Section Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h5 class="fw-bold mb-0">Heroes Records</h5>
+            <small class="text-muted">Manage all registered members</small>
+        </div>
+
+        <a href="{% url 'create-record' %}" class="btn btn-success rounded-pill px-4">
+            + Create
+        </a>
+    </div>
+
+    <!-- Records Table -->
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light text-center">
+                    <tr class="small text-uppercase">
+                        <th>ID</th>
+                        <th>First</th>
+                        <th>Last</th>
+                        <th>Age</th>
+                        <th>Phone</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>Address</th>
+                        <th>Joined</th>
+                        <th>Updated</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for record in records %}
+                    <tr class="text-center">
+                        <td class="fw-semibold">#{{ record.id }}</td>
+
+                        <td>{{ record.first_name }}</td>
+                        <td>{{ record.last_name }}</td>
+                        <td>{{ record.age }}</td>
+
+                        <td>
+                            <a href="tel:{{ record.phone }}" class="text-decoration-none">
+                                {{ record.phone }}
+                            </a>
+                        </td>
+
+                        <td>{{ record.tall }} cm</td>
+                        <td>{{ record.weight }} kg</td>
+
+                        <td class="text-truncate" style="max-width: 150px;">
+                            {{ record.address }}
+                        </td>
+
+                        <td>{{ record.created_at|date:"Y-m-d" }}</td>
+                        <td>{{ record.updated_at|date:"H:i" }}</td>
+
+                        <td>
+                            <a href="{% url 'record-detail' record.id %}"
+                                class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="text-center py-4">
+                            <div class="alert alert-warning rounded-3 mb-0">
+                                No records found.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

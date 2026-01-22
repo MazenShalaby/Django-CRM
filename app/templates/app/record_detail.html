@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Record {{ record.id }} | Django CRM
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-gradient bg-primary text-white text-center rounded-top-4 py-4">
+                    <h4 class="mb-1 fw-bold">
+                        {{ record.first_name }} {{ record.last_name }}
+                    </h4>
+                    <small class="opacity-75">Personal Information</small>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body px-4 py-4">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <small class="text-muted">Age</small>
+                                <div class="fw-semibold">{{ record.age }} years</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <small class="text-muted">Phone</small>
+                                <div class="fw-semibold">
+                                    <a href="tel:{{ record.phone }}" class="text-decoration-none">
+                                        {{ record.phone }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <small class="text-muted">Height</small>
+                                <div class="fw-semibold">{{ record.tall }} cm</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <small class="text-muted">Weight</small>
+                                <div class="fw-semibold">{{ record.weight }} kg</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="info-box">
+                                <small class="text-muted">Address</small>
+                                <div class="fw-semibold text-secondary">
+                                    {{ record.address }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Info Section -->
+                        {% if record.joined_date or record.notes %}
+                        <div class="col-12 mt-3">
+                            <hr>
+                            <h6 class="fw-bold">Additional Info</h6>
+                            {% if record.joined_date %}
+                                <p><strong>Joined:</strong> {{ record.joined_date|date:"Y-m-d" }}</p>
+                            {% endif %}
+                            {% if record.notes %}
+                                <p><strong>Notes:</strong> {{ record.notes }}</p>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-light d-flex justify-content-between px-4 py-3 rounded-bottom-4">
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                        ← Back
+                    </a>
+
+                    <div>
+                        <a href="{% url 'update-record' record.id %}" class="btn btn-outline-primary btn-sm me-2">
+                            Edit
+                        </a>
+                        <a href="{% url 'delete-record' record.id %}" onclick="return confirm('Are you sure?')" class="btn btn-outline-danger btn-sm">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
